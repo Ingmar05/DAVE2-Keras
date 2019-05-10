@@ -3,6 +3,7 @@ import pandas as pd
 import cv2
 import matplotlib.image as mpimg
 import json
+import tensorflow as tf
 
 from keras.models import Sequential
 from keras.layers import Convolution2D, MaxPooling2D, Dense, Dropout
@@ -10,6 +11,14 @@ from keras.layers import Activation, Flatten, Lambda, Input, ELU
 from keras.optimizers import Adam
 from keras.utils import np_utils
 from keras.preprocessing.image import ImageDataGenerator
+from keras.backend.tensorflow_backend import set_session
+
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True  # dynamically grow the memory used on the GPU
+config.log_device_placement = False  # to log device placement (on which device the operation ran)
+
+sess = tf.Session(config=config)
+set_session(sess)  # set this TensorFlow session as the default session for Keras
 
 # Read and pre-process the logfile generated in training mode
 csv_file = 'data/driving_log.csv' # Training logfile
@@ -142,7 +151,7 @@ adam = Adam(lr=1e-4, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
 model.compile(optimizer="adam", loss="mse")
 
 # Train and save the model
-BATCH_SIZE = 100
+BATCH_SIZE = 1
 NB_EPOCH = 9
 NB_SAMPLES = 2*len(X_train)
 model.fit_generator(datagen.flow(X_train, y_train, batch_size=BATCH_SIZE),

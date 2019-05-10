@@ -18,7 +18,7 @@ from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_a
 
 # Fix error with Keras and TensorFlow
 import tensorflow as tf
-tf.python.control_flow_ops = tf
+#tf.python.control_flow_ops = tf
 
 
 sio = socketio.Server()
@@ -77,6 +77,8 @@ if __name__ == '__main__':
     with open(args.model, 'r') as jfile:
         # model = model_from_json(jfile.read())
         model = model_from_json(json.loads(jfile.read()))
+        #architecture = json.load(jfile)
+        #model = model_from_json(json.dumps(architecture))
 
     model.compile("adam", "mse")
     weights_file = args.model.replace('json', 'h5')
