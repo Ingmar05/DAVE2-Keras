@@ -151,7 +151,7 @@ adam = Adam(lr=1e-4, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
 model.compile(optimizer="adam", loss="mse")
 
 # Train and save the model
-BATCH_SIZE = 1
+BATCH_SIZE = 100
 NB_EPOCH = 9
 NB_SAMPLES = 2*len(X_train)
 model.fit_generator(datagen.flow(X_train, y_train, batch_size=BATCH_SIZE),
